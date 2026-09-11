@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Neon Pool Party · AquaLife</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Partículas de fundo -->
+  <div class="floating-particle" style="left: 5%; animation-delay: 0s;">✦</div>
+  <div class="floating-particle" style="left: 15%; animation-delay: 2s;">◆</div>
+  <div class="floating-particle" style="left: 25%; animation-delay: 4s;">✦</div>
+  <div class="floating-particle" style="left: 35%; animation-delay: 6s;">◆</div>
+  <div class="floating-particle" style="left: 45%; animation-delay: 8s;">✦</div>
+  <div class="floating-particle" style="left: 55%; animation-delay: 1s;">◆</div>
+  <div class="floating-particle" style="left: 65%; animation-delay: 3s;">✦</div>
+  <div class="floating-particle" style="left: 75%; animation-delay: 5s;">◆</div>
+  <div class="floating-particle" style="left: 85%; animation-delay: 7s;">✦</div>
+  <div class="floating-particle" style="left: 95%; animation-delay: 9s;">◆</div>
+
+  <!-- ===== SPLASH ===== -->
+  <div id="splash">
+    <div class="orb1"></div>
+    <div class="orb2"></div>
+    <div class="orb3"></div>
+    <div class="light-line"></div>
+    <div class="light-line"></div>
+    <div class="light-line"></div>
+
+    <div class="splash-particles">
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+      <div class="particle"></div>
+    </div>
+
+    <div class="splash-content">
+      <div class="splash-logo">
+        <i class="fas fa-water"></i> Neon Party
+      </div>
+      <div class="splash-sub">Summer Vibes · Pool Party</div>
+      <button class="splash-btn" id="enterBtn">
+        Entrar na Festa <i class="fas fa-arrow-right"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- ===== MAIN PAGE ===== -->
+  <div id="main">
+    <div class="glass-hero">
+      <div class="pool-waves"></div>
+
+      <!-- BOTÃO VOLTAR PARA A SPLASH -->
+      <button class="main-back-btn" id="mainBackBtn" aria-label="Voltar">
+        <i class="fas fa-arrow-left"></i>
+        <span>Voltar</span>
+      </button>
+
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="hero-tagline">
+            <i class="fas fa-circle"></i> summer vibes · pool party
+          </div>
+
+          <h1 class="hero-title">Neon Party</h1>
+
+          <div class="feature-pills">
+            <div class="pill"><i class="fas fa-umbrella-beach"></i> Summer Vibes <span>· Dress Code</span></div>
+            <div class="pill"><i class="fas fa-cocktail"></i> Open Bar <span>· Bebidas</span></div>
+            <div class="pill"><i class="fas fa-swimmer"></i> Piscina <span>· Pool Party</span></div>
+          </div>
+        </div>
+
+        <div class="hero-right">
+          <div class="stats-grid">
+            <div class="stat-item">
+              <div class="stat-number">20<small>+</small></div>
+              <div class="stat-label">Convidados</div>
+            </div>
+            <div class="stat-item">
+              <div class="stat-number">200<small>+</small></div>
+              <div class="stat-label">Bebidas</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LOCALIZAÇÃO CLICÁVEL (abre Google Maps) -->
+      <a 
+        href="https://maps.app.goo.gl/BkdtuWuN3ZoVy6Wc6" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="local-block"
+      >
+        <span class="local-pulse">
+          <i class="fas fa-map-marker-alt"></i>
+        </span>
+        <span class="local-text">
+          <span class="local-label">Localização</span>
+          <span class="local-address">Rua Venezuela, 8 - Cidade Olímpica</span>
+        </span>
+        <span class="local-arrow">
+          <i class="fas fa-arrow-right"></i>
+        </span>
+      </a>
+
+      <!-- BOTÃO EXPLORAR ABAIXO DA LOCALIZAÇÃO -->
+      <div class="explore-btn-wrapper">
+        <button class="explore-main-btn" id="exploreBtn">
+          <i class="fas fa-compass"></i> Explore Agora
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== EXPLORE PAGE ===== -->
+  <div id="explorePage" class="explore-page">
+    <div class="explore-orb o1"></div>
+    <div class="explore-orb o2"></div>
+
+    <div class="explore-container">
+      <div class="explore-header">
+        <div class="explore-title">
+          <i class="fas fa-compass"></i> Explorar
+        </div>
+        <div class="explore-actions">
+          <button class="back-btn" id="backBtn">
+            <i class="fas fa-arrow-left"></i> Voltar
+          </button>
+          <button class="home-btn" id="homeBtn">
+            <i class="fas fa-home"></i> Início
+          </button>
+        </div>
+      </div>
+
+      <div class="explore-grid" id="exploreApp">
+        <!-- BEBIDAS -->
+        <div class="explore-card" :class="{ open: cards.bebidas }">
+          <div class="explore-card-header" @click="toggleCard('bebidas', $event)">
+            <div class="explore-card-header-left">
+              <div class="explore-card-icon">
+                <i class="fas fa-glass-cheers"></i>
+              </div>
+              <div class="explore-card-title">
+                <h3>Bebidas</h3>
+                <span>{{ drinksCount }} opções disponíveis</span>
+              </div>
+            </div>
+            <div class="explore-card-chevron">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+          <div class="explore-card-body">
+            <ul class="explore-list">
+              <li v-for="(item, i) in drinks" :key="i">
+                <span class="list-icon"><i class="fas fa-circle"></i></span>
+                <span class="list-text">{{ item }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- COMIDA -->
+        <div class="explore-card" :class="{ open: cards.comida }">
+          <div class="explore-card-header" @click="toggleCard('comida', $event)">
+            <div class="explore-card-header-left">
+              <div class="explore-card-icon">
+                <i class="fas fa-utensils"></i>
+              </div>
+              <div class="explore-card-title">
+                <h3>Comida</h3>
+                <span>{{ foodsCount }} opções disponíveis</span>
+              </div>
+            </div>
+            <div class="explore-card-chevron">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+          <div class="explore-card-body">
+            <ul class="explore-list">
+              <li v-for="(item, i) in foods" :key="i">
+                <span class="list-icon"><i class="fas fa-circle"></i></span>
+                <span class="list-text">{{ item }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- BRINCADEIRAS -->
+        <div class="explore-card games-card" :class="{ open: cards.brincadeiras }">
+          <div class="explore-card-header" @click="toggleCard('brincadeiras', $event)">
+            <div class="explore-card-header-left">
+              <div class="explore-card-icon">
+                <i class="fas fa-gamepad"></i>
+              </div>
+              <div class="explore-card-title">
+                <h3>Brincadeiras</h3>
+                <span>{{ gamesCount }} jogos disponíveis</span>
+              </div>
+            </div>
+            <div class="explore-card-chevron">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+          <div class="explore-card-body">
+            <div class="games-grid">
+              <div 
+                v-for="(game, index) in games" 
+                :key="index"
+                class="game-card"
+                :class="{ active: game.active }"
+              >
+                <div class="lock-overlay">
+                  <i class="fas fa-lock"></i> BLOQUEADO
+                </div>
+
+                <div class="game-card-header" @click="toggleGame(index)">
+                  <span class="game-icon"><i :class="game.icon"></i></span>
+                  <h4>{{ game.title }}</h4>
+                </div>
+                <div class="game-preview" @click="toggleGame(index)">{{ game.preview }}</div>
+                <div class="game-tutorial">
+                  <div v-html="game.tutorial"></div>
+                </div>
+                <div class="toggle-hint" @click="toggleGame(index)">
+                  <i class="fas" :class="game.active ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+                  {{ game.active ? 'Fechar tutorial' : 'Ver tutorial' }}
+                </div>
+                <button class="tutorial-video-btn" @click.stop="openVideo(game)">
+                  <i class="fas fa-play-circle"></i> VER VÍDEO
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- REGRAS DA CASA -->
+        <div class="explore-card rules-card" :class="{ open: cards.regras }">
+          <div class="explore-card-header" @click="toggleCard('regras', $event)">
+            <div class="explore-card-header-left">
+              <div class="explore-card-icon">
+                <i class="fas fa-triangle-exclamation"></i>
+              </div>
+              <div class="explore-card-title">
+                <h3>REGRAS</h3>
+                <span>{{ rulesCount }} regras importantes</span>
+              </div>
+            </div>
+            <div class="explore-card-chevron">
+              <i class="fas fa-chevron-down"></i>
+            </div>
+          </div>
+          <div class="explore-card-body">
+            <ul class="explore-list rules-list">
+              <li v-for="(rule, i) in rules" :key="i">
+                <span class="list-icon"><i :class="rule.icon"></i></span>
+                <span class="list-text">{{ rule.text }}</span>
+              </li>
+            </ul>
+            <div class="rules-warning">
+              <i class="fas fa-hand-point-right"></i>
+              Quem quebrar as regras ajuda na limpeza no dia seguinte!
+              <i class="fas fa-broom"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== VIDEO MODAL ===== -->
+  <div id="videoModal" class="video-modal">
+    <div class="video-modal-content">
+      <div class="video-modal-header">
+        <h3><i class="fas fa-play-circle"></i> <span id="videoTitle">Tutorial</span></h3>
+        <button class="video-close-btn" id="videoCloseBtn">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="video-container" id="videoContainer">
+        <!-- Preenchido dinamicamente -->
+      </div>
+      <div class="video-tip">
+        <i class="fas fa-info-circle"></i> Toque no play para assistir o tutorial
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== ÁUDIO DA FESTA ===== -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="musica.mp3" type="audio/mpeg">
+    <source src="musica.ogg" type="audio/ogg">
+    <source src="musica.wav" type="audio/wav">
+  </audio>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
