@@ -1,3 +1,31 @@
+/* ================================================================
+   🔥 FIREBASE CONFIG — já preenchido com o seu projeto
+   ================================================================ */
+const firebaseConfig = {
+  apiKey: "AIzaSyBzqS3QmLD7cg2YmytbV6cQdmx-bhVDTbE",
+  authDomain: "neon-match-2455e.firebaseapp.com",
+  databaseURL: "https://neon-match-2455e-default-rtdb.firebaseio.com",
+  projectId: "neon-match-2455e",
+  storageBucket: "neon-match-2455e.firebasestorage.app",
+  messagingSenderId: "608531037973",
+  appId: "1:608531037973:web:85fad56d1357e3884c331c"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+const playersRef = db.ref('players');
+
+// ===== DEBUG FIREBASE =====
+firebase.database().ref('.info/connected').on('value', (snap) => {
+  console.log('🔥 Firebase conectado?', snap.val());
+});
+
+firebase.database().ref('players').on('value', (snap) => {
+  console.log('👥 Players no banco:', snap.val());
+}, (error) => {
+  console.error('❌ ERRO no Firebase:', error);
+});
+
 // ===== CONTROLE DA SPLASH + MÚSICA =====
 document.addEventListener('DOMContentLoaded', function() {
   const splash = document.getElementById('splash');
@@ -9,7 +37,6 @@ document.addEventListener('DOMContentLoaded', function() {
   bgMusic.volume = 0.4;
 
   enterBtn.addEventListener('click', function() {
-    // Tenta tocar a música (funciona porque foi um gesto do usuário)
     bgMusic.play().catch(function(err) {
       console.log('Música não encontrada ou bloqueada:', err.message);
     });
@@ -34,7 +61,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const splash = document.getElementById('splash');
   const bgMusic = document.getElementById('bgMusic');
 
-  // Ir para a tela Explorar
   exploreBtn.addEventListener('click', function() {
     main.style.display = 'none';
     explorePage.classList.add('visible');
@@ -42,14 +68,12 @@ document.addEventListener('DOMContentLoaded', function() {
     explorePage.scrollTop = 0;
   });
 
-  // Voltar da Explorar para a Main (botão do header)
   backBtn.addEventListener('click', function() {
     explorePage.classList.remove('visible');
     main.style.display = 'flex';
     document.body.style.overflow = 'auto';
   });
 
-  // Botão Início (volta para a Main e rola pro topo)
   homeBtn.addEventListener('click', function() {
     explorePage.classList.remove('visible');
     main.style.display = 'flex';
@@ -58,16 +82,12 @@ document.addEventListener('DOMContentLoaded', function() {
     main.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
 
-  // Botão Voltar da tela principal (volta para a splash)
   mainBackBtn.addEventListener('click', function() {
     main.style.display = 'none';
     main.classList.remove('visible');
-
     if (bgMusic) bgMusic.pause();
-
     splash.style.display = 'flex';
     splash.classList.remove('hidden');
-
     requestAnimationFrame(() => {
       splash.style.opacity = '1';
       splash.style.transform = 'scale(1)';
@@ -223,8 +243,6 @@ new Vue({
         return g;
       });
     },
-
-    // ===== ABRIR VÍDEO (funciona em mobile e desktop) =====
     openVideo(game) {
       const modal = document.getElementById('videoModal');
       const container = document.getElementById('videoContainer');
@@ -233,7 +251,6 @@ new Vue({
       title.textContent = game.title;
       container.innerHTML = '';
 
-      // === MODO YOUTUBE (fallback opcional) ===
       if (game.youtubeId) {
         const iframe = document.createElement('iframe');
         iframe.src = `https://www.youtube.com/embed/${game.youtubeId}?playsinline=1&rel=0&modestbranding=1`;
@@ -241,24 +258,20 @@ new Vue({
         iframe.allowFullscreen = true;
         iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
         container.appendChild(iframe);
-      }
-      // === MODO MP4 LOCAL (videos/xxx.mp4) ===
-      else if (game.videoSrc) {
+      } else if (game.videoSrc) {
         const video = document.createElement('video');
         video.controls = true;
         video.autoplay = false;
-        video.playsInline = true;                     // iOS
-        video.setAttribute('playsinline', '');         // iOS Safari
-        video.setAttribute('webkit-playsinline', '');  // iOS antigo
+        video.playsInline = true;
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
         video.preload = 'auto';
 
-        // Source MP4
         const source = document.createElement('source');
         source.src = game.videoSrc;
         source.type = 'video/mp4';
         video.appendChild(source);
 
-        // Placeholder (carregando / erro)
         const placeholder = document.createElement('div');
         placeholder.className = 'video-placeholder';
         placeholder.innerHTML = `
@@ -267,12 +280,10 @@ new Vue({
           <p>${game.title}</p>
         `;
 
-        // Quando o vídeo puder tocar, remove o placeholder
         video.addEventListener('canplay', () => {
           if (placeholder.parentNode) placeholder.remove();
         });
 
-        // Se der erro, mostra diagnóstico detalhado
         video.addEventListener('error', () => {
           const err = video.error;
           const codes = {
@@ -292,19 +303,14 @@ new Vue({
           `;
         });
 
-        // Tocar no placeholder dá play (útil se o vídeo demorar)
         placeholder.addEventListener('click', () => {
           video.play().catch(() => {});
         });
 
         container.appendChild(placeholder);
         container.appendChild(video);
-
-        // Força o navegador a começar a carregar
         video.load();
-      }
-      // === SEM VÍDEO ===
-      else {
+      } else {
         container.innerHTML = `
           <div class="video-placeholder">
             <div class="play-ring"><i class="fas fa-video-slash"></i></div>
@@ -327,16 +333,12 @@ document.addEventListener('DOMContentLoaded', function() {
   function fecharModal() {
     videoModal.classList.remove('visible');
     document.body.style.overflow = '';
-
-    // Para o vídeo HTML5 se existir
     const video = videoModal.querySelector('video');
     if (video) {
       video.pause();
       video.removeAttribute('src');
       video.load();
     }
-
-    // Remove o iframe do YouTube (para parar o áudio)
     const iframe = videoModal.querySelector('iframe');
     if (iframe && iframe.parentNode) {
       iframe.parentNode.removeChild(iframe);
@@ -344,15 +346,284 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   videoCloseBtn.addEventListener('click', fecharModal);
-
   videoModal.addEventListener('click', function(e) {
     if (e.target === videoModal) fecharModal();
   });
-
-  // Fecha com ESC no desktop
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape' && videoModal.classList.contains('visible')) {
       fecharModal();
     }
   });
 });
+
+/* ================================================================
+   MATCH GAME com Firebase Realtime Database
+   Funciona entre 13+ celulares em tempo real
+   ================================================================ */
+(function() {
+  const MY_NAME_KEY = 'neon_my_name';
+
+  let myName = localStorage.getItem(MY_NAME_KEY) || '';
+  let myChoices = {};
+  let allPlayers = {};
+
+  // ===== DOM =====
+  const matchPage    = document.getElementById('matchPage');
+  const loginScreen  = document.getElementById('matchLogin');
+  const gameScreen   = document.getElementById('matchGame');
+  const myNameInput  = document.getElementById('myNameInput');
+  const enterBtn     = document.getElementById('matchEnterBtn');
+  const myNameDisp   = document.getElementById('myNameDisplay');
+  const myAvatar     = document.getElementById('myAvatar');
+  const changeBtn    = document.getElementById('changeNameBtn');
+  const grid         = document.getElementById('matchGrid');
+  const resultsList  = document.getElementById('matchResultsList');
+  const modal        = document.getElementById('matchModal');
+  const modalName    = document.getElementById('matchName');
+  const modalClose   = document.getElementById('matchModalClose');
+  const matchBackBtn = document.getElementById('matchBackBtn');
+  const matchHomeBtn = document.getElementById('matchHomeBtn');
+  const openMatchBtn = document.getElementById('openMatchBtn');
+
+  if (!matchPage) return;
+
+  // ===== Paleta =====
+  const PALETTE = ['#ec4899', '#a855f7', '#00e5ff', '#8b5cf6',
+                   '#ff9e00', '#00ff88', '#ff4d6d', '#c77dff',
+                   '#4cc9f0', '#f72585', '#4361ee', '#06d6a0'];
+
+  function colorFor(name) {
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return PALETTE[Math.abs(hash) % PALETTE.length];
+  }
+
+  function initialFor(name) {
+    return (name.trim()[0] || '?').toUpperCase();
+  }
+
+  function safeKey(name) {
+    return name.replace(/[.#$\[\]/]/g, '_');
+  }
+
+  // ===== Helpers =====
+  function otherPlayers() {
+    return Object.keys(allPlayers).filter(n => n !== myName);
+  }
+
+  function whoChoseMe() {
+    const result = {};
+    otherPlayers().forEach(n => {
+      const esc = (allPlayers[n] && allPlayers[n].escolhas) || {};
+      if (esc[safeKey(myName)]) result[n] = true;
+    });
+    return result;
+  }
+
+  // ===== Telas =====
+  function showLogin() {
+    loginScreen.style.display = 'block';
+    gameScreen.style.display = 'none';
+    myNameInput.value = myName || '';
+    setTimeout(() => myNameInput.focus(), 200);
+  }
+
+  function showGame() {
+    loginScreen.style.display = 'none';
+    gameScreen.style.display = 'block';
+    myNameDisp.textContent = myName;
+    myAvatar.textContent = initialFor(myName);
+    myAvatar.style.background = `linear-gradient(135deg, ${colorFor(myName)}, ${colorFor(myName)}88)`;
+    renderCards();
+    renderResults();
+  }
+
+  // ===== Entrar =====
+  function enterGame() {
+    const name = myNameInput.value.trim();
+    if (name.length < 2) {
+      myNameInput.focus();
+      myNameInput.style.borderColor = '#ec4899';
+      myNameInput.placeholder = 'Digite pelo menos 2 letras...';
+      return;
+    }
+
+    if (name !== myName) {
+      myChoices = {};
+    }
+
+    myName = name;
+    localStorage.setItem(MY_NAME_KEY, myName);
+
+    playersRef.child(safeKey(myName)).update({
+      nome: myName,
+      escolhas: myChoices || {}
+    });
+
+    showGame();
+  }
+
+  enterBtn.addEventListener('click', enterGame);
+  myNameInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') enterGame();
+  });
+
+  changeBtn.addEventListener('click', () => {
+    showLogin();
+  });
+
+  // ===== Render Cards =====
+  function renderCards() {
+    const others = otherPlayers();
+    const chosenMe = whoChoseMe();
+
+    if (others.length === 0) {
+      grid.innerHTML = `
+        <div class="no-matches" style="grid-column:1/-1;text-align:center;padding:40px 20px;">
+          <i class="fas fa-users" style="font-size:2.5rem;color:rgba(236,72,153,0.4);display:block;margin-bottom:16px;"></i>
+          Nenhuma outra pessoa entrou ainda.<br>
+          <span style="font-size:0.75rem;opacity:0.6;">Peça para alguém abrir o jogo e digitar o nome!</span>
+        </div>`;
+      return;
+    }
+
+    grid.innerHTML = '';
+    others.forEach(nome => {
+      const color = colorFor(nome);
+      const selected = !!myChoices[safeKey(nome)];
+      const matched = selected && chosenMe[nome];
+
+      const card = document.createElement('div');
+      card.className = 'match-card';
+      if (selected) card.classList.add('selected');
+      if (matched) card.classList.add('matched');
+
+      let statusText = 'Escolher';
+      let statusIcon = 'fa-circle';
+      if (selected && matched) { statusText = 'Match!'; statusIcon = 'fa-heart'; }
+      else if (selected) { statusText = 'Esperando...'; statusIcon = 'fa-clock'; }
+
+      card.innerHTML = `
+        <div class="match-check"><i class="fas fa-check"></i></div>
+        <div class="match-avatar" style="background: linear-gradient(135deg, ${color}, ${color}88);">
+          ${initialFor(nome)}
+        </div>
+        <div class="match-name">${nome}</div>
+        <div class="match-status">
+          <i class="fas ${statusIcon}"></i> ${statusText}
+        </div>
+      `;
+
+      card.addEventListener('click', () => toggleChoice(nome));
+      grid.appendChild(card);
+    });
+  }
+
+  // ===== Toggle escolha =====
+  function toggleChoice(nome) {
+    const key = safeKey(nome);
+    const wasSelected = !!myChoices[key];
+
+    if (wasSelected) {
+      delete myChoices[key];
+    } else {
+      myChoices[key] = true;
+    }
+
+    playersRef.child(safeKey(myName)).child('escolhas').set(myChoices);
+
+    renderCards();
+    renderResults();
+
+    if (!wasSelected) {
+      const chosenMe = whoChoseMe();
+      if (chosenMe[nome]) {
+        showMatchModal(nome);
+      }
+    }
+  }
+
+  // ===== Resultados =====
+  function renderResults() {
+    const chosenMe = whoChoseMe();
+    const matched = otherPlayers().filter(n => myChoices[safeKey(n)] && chosenMe[n]);
+
+    if (matched.length === 0) {
+      resultsList.innerHTML = '<div class="no-matches">Nenhum match ainda. Continue escolhendo!</div>';
+      return;
+    }
+
+    resultsList.innerHTML = '';
+    matched.forEach(nome => {
+      const color = colorFor(nome);
+      const item = document.createElement('div');
+      item.className = 'match-result-item';
+      item.innerHTML = `
+        <div class="mini-avatar" style="background: linear-gradient(135deg, ${color}, ${color}88);">
+          ${initialFor(nome)}
+        </div>
+        <span>${nome}</span>
+        <i class="fas fa-heart"></i>
+      `;
+      resultsList.appendChild(item);
+    });
+  }
+
+  // ===== Modal =====
+  function showMatchModal(nome) {
+    modalName.textContent = nome;
+    modal.classList.add('visible');
+    if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+  }
+
+  modalClose.addEventListener('click', () => modal.classList.remove('visible'));
+  modal.addEventListener('click', (e) => {
+    if (e.target === modal) modal.classList.remove('visible');
+  });
+
+  // ===== Listener em tempo real do Firebase =====
+  playersRef.on('value', (snapshot) => {
+    const raw = snapshot.val() || {};
+    allPlayers = {};
+
+    Object.keys(raw).forEach(k => {
+      const p = raw[k] || {};
+      const nome = p.nome || k;
+      allPlayers[nome] = {
+        escolhas: p.escolhas || {}
+      };
+    });
+
+    if (myName && allPlayers[myName]) {
+      myChoices = allPlayers[myName].escolhas || {};
+    }
+
+    if (gameScreen.style.display !== 'none') {
+      renderCards();
+      renderResults();
+    }
+  });
+
+  // ===== Abrir / Fechar página =====
+  function openMatchPage() {
+    matchPage.classList.add('visible');
+    if (myName) showGame(); else showLogin();
+  }
+
+  function closeMatchPage() {
+    matchPage.classList.remove('visible');
+  }
+
+  if (openMatchBtn) openMatchBtn.addEventListener('click', openMatchPage);
+  if (matchBackBtn) matchBackBtn.addEventListener('click', closeMatchPage);
+  if (matchHomeBtn) {
+    matchHomeBtn.addEventListener('click', () => {
+      closeMatchPage();
+    });
+  }
+
+  // Inicializa
+  if (myName) showGame(); else showLogin();
+})();
